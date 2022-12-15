@@ -18,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class TodoServiceTest {
@@ -48,5 +49,14 @@ public class TodoServiceTest {
         assertThat(actualTodos.get(1),equalTo(todo2));
     }
 
+    @Test
+    void should_delete_a_company_when_delete_Todo_given_a_todo() {
+        //given
+       final String todoId = new ObjectId().toString();
+       //when
+        todoService.deleteTodo(todoId);
 
+        //then
+        verify(todoRepository).deleteById(todoId);
+    }
 }
