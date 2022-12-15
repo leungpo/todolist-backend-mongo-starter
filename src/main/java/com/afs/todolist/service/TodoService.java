@@ -35,6 +35,7 @@ public class TodoService {
     }
 
     public Todo updateTodo(String id,Todo todo) {
+        validateObjectId(id);
         Todo existingTodo = todoRepository.findById(id).orElseThrow(IllegalArgumentException ::new);
         if(todo.getText() != null){
             existingTodo.setText(todo.getText());
@@ -46,6 +47,7 @@ public class TodoService {
     }
 
     public List<Todo> deleteTodo(String id) {
+        validateObjectId(id);
         todoRepository.deleteById(id);
         return findAll();
     }
