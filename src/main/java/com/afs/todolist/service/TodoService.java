@@ -26,4 +26,11 @@ public class TodoService {
             throw new InvalidIdException(id);
         }
     }
+
+    public Todo addTodo(String text) {
+        Todo existingTodo = new Todo();
+        existingTodo.setText(text);
+        existingTodo.setDone(false);
+        return todoRepository.save(existingTodo);
+    }
 }

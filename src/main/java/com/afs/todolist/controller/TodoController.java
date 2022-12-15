@@ -1,5 +1,6 @@
 package com.afs.todolist.controller;
 
+import com.afs.todolist.controller.dto.TodoCreateRequest;
 import com.afs.todolist.controller.mapper.TodoMapper;
 import com.afs.todolist.entity.Todo;
 import com.afs.todolist.service.TodoService;
@@ -22,5 +23,11 @@ public class TodoController {
     @GetMapping
     List<Todo> getAll() {
         return todoService.findAll();
+    }
+
+    @PostMapping
+    Todo addTodo(@RequestBody TodoCreateRequest request){
+        Todo todo = todoMapper.toEntity(request);
+        return todoService.addTodo(todo.getText());
     }
 }
