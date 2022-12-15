@@ -6,6 +6,7 @@ import com.afs.todolist.controller.mapper.TodoMapper;
 import com.afs.todolist.entity.Todo;
 import com.afs.todolist.service.TodoService;
 import com.mongodb.lang.NonNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     List<Todo> deleteTodo(@PathVariable String id) {
         return todoService.deleteTodo(id);
     }

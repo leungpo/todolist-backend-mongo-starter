@@ -114,5 +114,18 @@ public class TodoControllerTest {
 
     }
 
+    @Test
+    void should_delete_todo_when_perform_delete_given_1_todo() throws Exception {
+        //given
+        Todo todo1 = new Todo();
+        todo1.setId(new ObjectId().toString());
+        todo1.setText("123");
+        todo1.setDone(false);
+        todoRepository.save(todo1);
+        //when & then
+        client.perform(MockMvcRequestBuilders.delete("/todos/{id}", todo1.getId()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+    }
 
 }
