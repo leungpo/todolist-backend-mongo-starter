@@ -83,4 +83,27 @@ public class TodoServiceTest {
         verify(todoRepository).findById(id);
         assertThat(actualTodo.getText(), equalTo(text));
     }
+
+    @Test
+    void should_return_Todo_when_update_Todo_status_given_a_todo() {
+        //given
+        Todo originalTodo = new Todo();
+        originalTodo.setId(new ObjectId().toString());
+        originalTodo.setText("123");
+        originalTodo.setDone(false);
+        Todo toUpdateTodo = new Todo();
+        toUpdateTodo.setId(new ObjectId().toString());
+        toUpdateTodo.setText("123");
+        toUpdateTodo.setDone(true);
+        String id = originalTodo.getId();
+        Boolean done = toUpdateTodo.getDone();
+        given(todoRepository.findById(id)).willReturn(Optional.of(originalTodo));
+        given(todoRepository.save(originalTodo)).willReturn(toUpdateTodo);
+        //when
+        Todo actualTodo = todoService.updateTodo(id,toUpdateTodo);
+
+        //then
+        verify(todoRepository).findById(id);
+        assertThat(actualTodo.getDone(), equalTo(done));
+    }
 }
