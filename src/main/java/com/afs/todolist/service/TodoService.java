@@ -39,7 +39,7 @@ public class TodoService {
         if(todo.getText() != null){
             existingTodo.setText(todo.getText());
         }
-        else {
+        else{
             existingTodo.setDone(!existingTodo.getDone());
         }
         return todoRepository.save(existingTodo);
