@@ -90,6 +90,27 @@ public class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(todo1.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(true));
         //then
+    }
+
+    @Test
+    void should_update_todo_text_when_perform_put_given_existing_todo() throws Exception {
+        //given
+        Todo todo1 = new Todo();
+        todo1.setId(new ObjectId().toString());
+        todo1.setText("123");
+        todo1.setDone(false);
+        todoRepository.save(todo1);
+        Todo updateTodo = new Todo();
+        updateTodo.setText("456");
+        updateTodo.setId(new ObjectId().toString());
+        String newTodoJson = new ObjectMapper().writeValueAsString(updateTodo);
+        //when & then
+        client.perform(MockMvcRequestBuilders.put("/todos/{id}", todo1.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newTodoJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(todo1.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value("456"));
 
     }
 
