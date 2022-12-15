@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -58,5 +59,28 @@ public class TodoServiceTest {
 
         //then
         verify(todoRepository).deleteById(todoId);
+    }
+
+    @Test
+    void should_return_Todo_when_update_Todo_text_given_a_todo() {
+        //given
+        Todo originalTodo = new Todo();
+        originalTodo.setId(new ObjectId().toString());
+        originalTodo.setText("123");
+        originalTodo.setDone(false);
+        Todo toUpdateTodo = new Todo();
+        toUpdateTodo.setId(new ObjectId().toString());
+        toUpdateTodo.setText("456");
+        toUpdateTodo.setDone(false);
+        String id = originalTodo.getId();
+        String text = toUpdateTodo.getText();
+        given(todoRepository.findById(id)).willReturn(Optional.of(originalTodo));
+        given(todoRepository.save(originalTodo)).willReturn(toUpdateTodo);
+        //when
+       Todo actualTodo = todoService.updateTodo(id,toUpdateTodo);
+
+        //then
+        verify(todoRepository).findById(id);
+        assertThat(actualTodo.getText(), equalTo(text));
     }
 }
