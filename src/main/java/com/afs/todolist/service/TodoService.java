@@ -44,4 +44,9 @@ public class TodoService {
         }
         return todoRepository.save(existingTodo);
     }
+
+    public List<Todo> deleteTodo(String id) {
+        todoRepository.deleteById(id);
+        return findAll();
+    }
 }
