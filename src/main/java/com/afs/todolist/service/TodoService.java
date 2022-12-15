@@ -33,4 +33,10 @@ public class TodoService {
         existingTodo.setDone(false);
         return todoRepository.save(existingTodo);
     }
+
+    public Todo updateTodoStatus(String id) {
+        Todo existingTodo = todoRepository.findById(id).orElseThrow(IllegalArgumentException ::new);
+        existingTodo.setDone(!existingTodo.getDone());
+        return todoRepository.save(existingTodo);
+    }
 }
